@@ -1,0 +1,137 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.915
+Hello everyone, in this video we'll introduce CAPABLE: Capability-Aware Policy Adaptation via Behavioral Latent Encoding.
+
+2
+00:00:08.057 --> 00:00:11.444
+Consider a robot instructed to place the plate inside the drawer.
+
+3
+00:00:11.444 --> 00:00:16.679
+A failure in one joint changes the robot’s physical capability, making the intended motion difficult to execute.
+
+4
+00:00:16.679 --> 00:00:19.143
+The frozen OpenVLA-OFT policy continues producing nominal actions,
+
+5
+00:00:19.143 --> 00:00:22.838
+unaware that the commanded motion no longer matches the robot’s actual response.
+
+6
+00:00:22.838 --> 00:00:25.302
+Consequently, the robot deviates from the desired trajectory.
+
+7
+00:00:25.302 --> 00:00:30.537
+CAPABLE addresses this problem by inferring the robot’s current capability from its joint-execution history and kinematic structure.
+
+8
+00:00:30.537 --> 00:00:34.848
+A residual policy then adapts the frozen VLA action to the robot’s altered dynamics.
+
+9
+00:00:34.848 --> 00:00:37.619
+The system receives the visual observation and language instruction.
+
+10
+00:00:37.619 --> 00:00:42.854
+The frozen OpenVLA-OFT backbone processes these inputs and generates the nominal action chunk for the current phase.
+
+11
+00:00:42.854 --> 00:00:46.858
+In parallel, CAPABLE maintains a sixteen-step history of commanded and observed joint motion.
+
+12
+00:00:46.858 --> 00:00:52.093
+This history reveals discrepancies between what each joint was asked to do and what it physically achieved.
+
+13
+00:00:52.093 --> 00:00:54.556
+A shared temporal encoder processes every joint independently.
+
+14
+00:00:54.556 --> 00:01:00.099
+Sharing the encoder across joints avoids fixed joint identities and supports generalization to failures affecting previously unseen actuators.
+
+15
+00:01:00.099 --> 00:01:03.486
+The resulting joint representations are combined with the current physical query,
+
+16
+00:01:03.486 --> 00:01:06.258
+including the robot configuration, Jacobian, and nominal VLA action.
+
+17
+00:01:06.258 --> 00:01:09.029
+Cross-joint attention then models how individual joint capabilities interact.
+
+18
+00:01:09.029 --> 00:01:14.572
+These representations are aggregated into a capability latent describing the robot’s current ability to execute the requested motion.
+
+19
+00:01:14.572 --> 00:01:17.344
+This latent conditions the residual actor through feature-wise modulation.
+
+20
+00:01:17.344 --> 00:01:21.655
+The actor samples a residual correction, which is added to the nominal OpenVLA action.
+
+21
+00:01:21.655 --> 00:01:23.194
+The corrected action is executed,
+
+22
+00:01:23.194 --> 00:01:27.506
+and the new joint response is returned as feedback for continuous online capability estimation.
+
+23
+00:01:27.506 --> 00:01:31.817
+CAPABLE therefore enables a frozen VLA policy to adapt online to unseen actuator failures—
+
+24
+00:01:31.817 --> 00:01:34.280
+without fault labels, joint identifiers, or reference trajectories.
+
+25
+00:01:34.280 --> 00:01:36.128
+The next slide compares three conditions.
+
+26
+00:01:36.128 --> 00:01:41.671
+The left panel shows the healthy VLA, the middle panel the faulty VLA, and the right panel CAPABLE.
+
+27
+00:01:41.671 --> 00:01:44.442
+We evaluated 28 tasks across all four LIBERO suites.
+
+28
+00:01:44.442 --> 00:01:49.677
+CAPABLE adapts the action to recover tasks in which the faulty VLA deviates from the intended motion.
+
+29
+00:01:49.677 --> 00:01:52.449
+The final slide shows CAPABLE on a Franka Panda.
+
+30
+00:01:52.449 --> 00:01:55.220
+We first fine-tune the VLA and train the residual
+
+31
+00:01:55.220 --> 00:01:58.300
+policy in a digital twin matched to the physical workspace.
+
+32
+00:01:58.300 --> 00:02:02.303
+We then transfer both frozen policies to the real robot without hardware training,
+
+33
+00:02:02.303 --> 00:02:05.998
+where CAPABLE adapts the motion under joint faults and completes the task.
+
+34
+00:02:05.998 --> 00:02:07.230
+Thank you for watching.
