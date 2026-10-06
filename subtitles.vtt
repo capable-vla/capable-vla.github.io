@@ -1,0 +1,58 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:03.619
+Hi everyone. In this video, we're going to introduce CAPABLE.
+
+00:00:08.057 --> 00:00:11.445
+Consider a robot instructed to place the plate inside the drawer.
+
+00:00:12.291 --> 00:00:19.122
+A failure in one joint changes the robot's physical capability, making the intended motion difficult to execute.
+
+00:00:21.537 --> 00:00:25.998
+A pre-trained VLA policy continues producing nominal actions,
+
+00:00:26.290 --> 00:00:33.166
+unaware that the actual movement no longer matches what was commanded, causing the robot to deviate from its intended motion.
+
+00:00:36.115 --> 00:00:43.649
+CAPABLE addresses this problem by inferring the robot's current capability from its joint-execution history and kinematic structure.
+
+00:00:44.435 --> 00:00:50.276
+A residual policy then adapts the frozen VLA action to the robot's altered dynamics.
+
+00:00:52.309 --> 00:00:56.273
+The system receives the visual observation and language instruction.
+
+00:00:56.849 --> 00:01:00.621
+The frozen OpenVLA OFT generates the nominal action chunk.
+
+00:01:01.041 --> 00:01:06.488
+In parallel, CAPABLE maintains a sixteen-step history of commanded and observed joint motions,
+
+00:01:06.934 --> 00:01:11.991
+capturing discrepancies between intended and actual execution.
+
+00:01:12.786 --> 00:01:20.485
+A shared temporal encoder processes each joint independently, enabling generalization to unseen actuator failures.
+
+00:01:21.889 --> 00:01:27.601
+The joint representations are combined with the robot configuration, Jacobian, and nominal action.
+
+00:01:29.137 --> 00:01:32.827
+Cross-joint attention captures interactions between joint capabilities.
+
+00:01:33.502 --> 00:01:40.629
+These features form a capability latent that conditions the residual policy through feature-wise modulation.
+
+00:01:42.029 --> 00:01:46.110
+The residual policy generates a correction to the nominal VLA action.
+
+00:01:46.617 --> 00:01:52.982
+The corrected action is executed, and the resulting joint feedback updates the capability estimate.
+
+00:01:54.060 --> 00:02:04.981
+CAPABLE thus enables online adaptation to unseen actuator failures without fault labels, joint identifiers, or reference trajectories.
+
+00:02:06.395 --> 00:02:07.230
+Thank you for watching.
